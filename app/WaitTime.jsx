@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
 import {
   View,
   Text,
@@ -6,7 +7,10 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
+
 import { useNavigation } from "@react-navigation/native";
+
+import Constants from "../constants/constants";
 
 export default function WaitTime() {
   const navigation = useNavigation();
@@ -22,39 +26,63 @@ export default function WaitTime() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>⏳ Wait Time Checker</Text>
-      <Text style={styles.subtitle}>
-        Buddy is checking with the hospital... 🧸
-      </Text>
-
-      {waitTime && queuePosition ? (
-        <View style={styles.infoBox}>
-          <Text style={styles.infoText}>
-            Estimated wait time:{" "}
-            <Text style={styles.highlight}>{waitTime}</Text>
-          </Text>
-          <Text style={styles.infoText}>
-            Your place in line:{" "}
-            <Text style={styles.highlight}>#{queuePosition}</Text>
-          </Text>
-          <Text style={styles.smallText}>
-            You’ll get SMS updates as things change 📱
-          </Text>
-        </View>
-      ) : (
-        <ActivityIndicator
-          size="large"
-          color="#FFA500"
-          style={{ marginTop: 30 }}
-        />
-      )}
-
-      <TouchableOpacity
-        style={styles.homeButton}
-        onPress={() => navigation.navigate("index")}
+      <View
+        style={{
+          backgroundColor: "#104C98",
+          alignItems: "center",
+          paddingTop: 50,
+          paddingLeft: 10,
+          paddingRight: 10,
+          paddingBottom: 20,
+        }}
       >
-        <Text style={styles.homeButtonText}>🏠 Back to Home</Text>
-      </TouchableOpacity>
+        <View style={{ alignItems: "flex-start", width: "100%" }}>
+          <TouchableOpacity
+            style={styles.homeButton}
+            onPress={() => navigation.navigate("index")}
+          >
+            <Text style={styles.homeButtonText}>← Home</Text>
+          </TouchableOpacity>
+        </View>
+        <Text
+          style={{
+            fontSize: 24,
+            marginTop: 20,
+            color: "#fff",
+            fontWeight: "bold",
+            fontFamily: Constants.fontFamily,
+          }}
+        >
+          ⏳ Wait Time Checker
+        </Text>
+      </View>
+      <View style={styles.content}>
+        <Text style={styles.subtitle}>
+          Buddy is checking with the hospital... 🧸
+        </Text>
+
+        {waitTime && queuePosition ? (
+          <View style={styles.infoBox}>
+            <Text style={styles.infoText}>
+              Estimated wait time:{" "}
+              <Text style={styles.highlight}>{waitTime}</Text>
+            </Text>
+            <Text style={styles.infoText}>
+              Your place in line:{" "}
+              <Text style={styles.highlight}>#{queuePosition}</Text>
+            </Text>
+            <Text style={styles.smallText}>
+              You’ll get SMS updates as things change 📱
+            </Text>
+          </View>
+        ) : (
+          <ActivityIndicator
+            size="large"
+            color="#FFA500"
+            style={{ marginTop: 30 }}
+          />
+        )}
+      </View>
     </View>
   );
 }
@@ -62,9 +90,10 @@ export default function WaitTime() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF7F0",
-    paddingTop: 100,
+  },
+  content: {
     paddingHorizontal: 24,
+    paddingTop: 50,
     alignItems: "center",
   },
   title: {
@@ -72,15 +101,17 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#333",
     marginBottom: 8,
+    fontFamily: Constants.fontFamily,
   },
   subtitle: {
     fontSize: 16,
     color: "#666",
     marginBottom: 24,
     textAlign: "center",
+    fontFamily: Constants.fontFamily,
   },
   infoBox: {
-    backgroundColor: "#E0F7FA",
+    backgroundColor: "#94D600",
     padding: 20,
     borderRadius: 16,
     alignItems: "center",
@@ -88,27 +119,27 @@ const styles = StyleSheet.create({
   infoText: {
     fontSize: 18,
     marginBottom: 10,
+    fontFamily: Constants.fontFamily,
   },
   highlight: {
     fontWeight: "bold",
-    color: "#00796B",
+    fontFamily: Constants.fontFamily,
   },
   smallText: {
     fontSize: 14,
     color: "#777",
     marginTop: 10,
     textAlign: "center",
+    fontFamily: Constants.fontFamily,
   },
+
   homeButton: {
-    marginTop: 40,
-    backgroundColor: "#FF9F1C",
-    paddingVertical: 12,
-    paddingHorizontal: 28,
-    borderRadius: 25,
+    alignItems: "center",
   },
   homeButtonText: {
+    fontSize: 20,
     color: "#fff",
-    fontSize: 16,
     fontWeight: "bold",
+    fontFamily: Constants.fontFamily,
   },
 });

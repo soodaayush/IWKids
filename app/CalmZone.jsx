@@ -1,4 +1,3 @@
-import React from "react";
 import {
   View,
   Text,
@@ -6,7 +5,10 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+
 import { useNavigation } from "@react-navigation/native";
+
+import Constants from "../constants/constants";
 
 export default function CalmZone() {
   const navigation = useNavigation();
@@ -60,7 +62,6 @@ export default function CalmZone() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF0F6",
     paddingTop: 100,
     paddingHorizontal: 20,
   },
@@ -70,12 +71,14 @@ const styles = StyleSheet.create({
     color: "#D6336C",
     marginBottom: 8,
     textAlign: "center",
+    fontFamily: Constants.fontFamily,
   },
   subtitle: {
     fontSize: 16,
     color: "#444",
     textAlign: "center",
     marginBottom: 24,
+    fontFamily: Constants.fontFamily,
   },
   card: {
     backgroundColor: "#FFFFFF",
@@ -93,10 +96,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 6,
     color: "#444",
+    fontFamily: Constants.fontFamily,
   },
   cardDescription: {
     fontSize: 14,
     color: "#666",
+    fontFamily: Constants.fontFamily,
   },
   button: {
     backgroundColor: "#FF9F1C",
@@ -109,5 +114,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "600",
+    fontFamily: Constants.fontFamily,
   },
 });

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+
 import {
   View,
   Text,
@@ -7,7 +8,10 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
+
 import { useNavigation } from "@react-navigation/native";
+
+import Constants from "../constants/constants";
 
 export default function Feedback() {
   const navigation = useNavigation();
@@ -70,7 +74,6 @@ export default function Feedback() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F0FFF4",
     paddingTop: 100,
     paddingHorizontal: 24,
   },
@@ -80,12 +83,14 @@ const styles = StyleSheet.create({
     color: "#2E7D32",
     marginBottom: 10,
     textAlign: "center",
+    fontFamily: Constants.fontFamily,
   },
   subtitle: {
     fontSize: 16,
     color: "#444",
     textAlign: "center",
     marginBottom: 20,
+    fontFamily: Constants.fontFamily,
   },
   emojiRow: {
     flexDirection: "row",
@@ -110,6 +115,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderColor: "#C8E6C9",
     borderWidth: 1,
+    fontFamily: Constants.fontFamily,
   },
   button: {
     backgroundColor: "#43A047",
@@ -125,5 +131,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "600",
+    fontFamily: Constants.fontFamily,
   },
 });

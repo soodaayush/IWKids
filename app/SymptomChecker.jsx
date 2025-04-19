@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import {
   View,
   Text,
@@ -11,10 +11,13 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ActivityIndicator,
-  Image,
 } from "react-native";
 
+import { StatusBar } from "expo-status-bar";
+
 import { useNavigation } from "@react-navigation/native";
+
+import Constants from "../constants/constants";
 
 import { API_KEY } from "@env";
 
@@ -53,7 +56,7 @@ export default function SymptomChecker() {
               {
                 role: "system",
                 content:
-                  "You are a friendly assistant helping kids describe how they feel while waiting in the ER. Keep language simple, comforting, and supportive. You are in the IWK, which is a children's hospital in Halifax Nova Scotia. You should be able to accommodate people speaking English and French.",
+                  "You are a friendly medical assistant helping kids and families describe how they feel while waiting in the ER. Diagnose medical conditions and recommend they either go to ER or check with their family doctor. Keep language simple, comforting, and supportive, and keep the responses brief. You are in the IWK, which is a children's hospital in Halifax Nova Scotia. You should be able to accommodate people speaking English and French.",
               },
               ...updatedMessages.map((m) => ({
                 role: m.sender === "user" ? "user" : "assistant",
@@ -99,63 +102,80 @@ export default function SymptomChecker() {
         maxWidth: "75%",
       }}
     >
-      <Text>{item.text}</Text>
+      <Text style={{ fontFamily: Constants.fontFamily, fontSize: 20 }}>
+        {item.text}
+      </Text>
     </View>
   );
 
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={90}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{ flex: 1, paddingHorizontal: 10 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
+      <StatusBar style="light" />
+      <View
+        style={{
+          backgroundColor: "#104C98",
+          alignItems: "center",
+          paddingTop: 50,
+          paddingLeft: 10,
+          paddingRight: 10,
+          paddingBottom: 20,
+        }}
+      >
+        <View style={{ alignItems: "flex-start", width: "100%" }}>
+          <TouchableOpacity
+            style={styles.homeButton}
+            onPress={() => navigation.navigate("index")}
           >
-            <TouchableOpacity
-              style={{
-                backgroundColor: "#FF9F1C",
-                paddingVertical: 12,
-                paddingHorizontal: 28,
-                borderRadius: 25,
-              }}
-              onPress={() => navigation.navigate("index")}
-            >
-              <Text style={{ fontSize: 16 }}>🏠 Home</Text>
-            </TouchableOpacity>
-            <Text style={{ fontSize: 24, fontWeight: "bold" }}>
-              Symptom Checker
-            </Text>
-          </View>
+            <Text style={styles.homeButtonText}>← Home</Text>
+          </TouchableOpacity>
+        </View>
+        <Text
+          style={{
+            fontSize: 24,
+            marginTop: 20,
+            color: "#fff",
+            fontWeight: "bold",
+            fontFamily: Constants.fontFamily,
+          }}
+        >
+          Symptom Checker
+        </Text>
+      </View>
+      <View
+        style={{
+          flex: 1,
+          paddingHorizontal: 10,
+          justifyContent: "space-between",
+        }}
+      >
+        <FlatList
+          ref={flatListRef}
+          data={messages}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          contentContainerStyle={{ paddingVertical: 10, flexGrow: 1 }}
+          onContentSizeChange={() =>
+            flatListRef.current?.scrollToEnd({ animated: true })
+          }
+          onLayout={() => flatListRef.current?.scrollToEnd({ animated: true })}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="interactive"
+          showsVerticalScrollIndicator
+          style={{ flex: 1 }}
+        />
 
-          <FlatList
-            ref={flatListRef}
-            data={messages}
-            keyExtractor={(item) => item.id}
-            renderItem={renderItem}
-            style={styles.chatContainer}
-            contentContainerStyle={{ paddingVertical: 10 }}
-            onContentSizeChange={() =>
-              flatListRef.current?.scrollToEnd({ animated: true })
-            }
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={true}
+        {loading && (
+          <ActivityIndicator
+            size="small"
+            color="#007AFF"
+            style={{ margin: 10 }}
           />
+        )}
 
-          {loading && (
-            <ActivityIndicator
-              size="small"
-              color="#007AFF"
-              style={{ margin: 10 }}
-            />
-          )}
-
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inputContainer}>
             <TextInput
               style={{
@@ -172,15 +192,19 @@ export default function SymptomChecker() {
                 shadowOpacity: 0.3,
                 shadowRadius: 5,
                 marginBottom: 20,
+                maxHeight: 75,
+                fontFamily: Constants.fontFamily,
               }}
               value={input}
               onChangeText={setInput}
               placeholder="Ask your question..."
               placeholderTextColor="#A9A9A9"
+              multiline
+              numberOfLines={3}
             />
             <TouchableOpacity
               style={{
-                backgroundColor: "#007AFF",
+                backgroundColor: "#B31E8C",
                 paddingVertical: 12,
                 paddingHorizontal: 18,
                 borderRadius: 25,
@@ -198,27 +222,43 @@ export default function SymptomChecker() {
               <Text style={styles.sendText}>➤</Text>
             </TouchableOpacity>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </View>
     </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff", paddingTop: 50 },
-  title: { fontSize: 22, fontWeight: "bold", padding: 16, textAlign: "center" },
+  container: { flex: 1, backgroundColor: "#fff" },
+  title: {
+    fontSize: 22,
+    fontWeight: "bold",
+    padding: 16,
+    textAlign: "center",
+    fontFamily: Constants.fontFamily,
+  },
   chatContainer: { flex: 1, paddingHorizontal: 16 },
   messageBubble: {
     padding: 10,
     marginVertical: 5,
     borderRadius: 12,
     maxWidth: "75%",
+    fontFamily: Constants.fontFamily,
   },
-  userBubble: { alignSelf: "flex-end", backgroundColor: "#DCF8C6" },
-  aiBubble: { alignSelf: "flex-start", backgroundColor: "#EEE" },
+  userBubble: {
+    alignSelf: "flex-end",
+    backgroundColor: "#DCF8C6",
+    fontFamily: Constants.fontFamily,
+  },
+  aiBubble: {
+    alignSelf: "flex-start",
+    backgroundColor: "#EEE",
+    fontFamily: Constants.fontFamily,
+  },
   messageText: { fontSize: 16 },
   inputContainer: {
     flexDirection: "row",
+    alignItems: "center", // key to keeping button small!
     padding: 10,
     borderTopWidth: 1,
     borderColor: "#ccc",
@@ -229,16 +269,18 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 20,
     padding: 20,
+    fontFamily: Constants.fontFamily,
     paddingHorizontal: 15,
   },
   sendButton: { justifyContent: "center", alignItems: "center", marginLeft: 8 },
   sendText: { fontSize: 18 },
   homeButton: {
-    backgroundColor: "#4A90E2",
-    padding: 10,
     alignItems: "center",
-    margin: 20,
-    borderRadius: 12,
   },
-  homeButtonText: { color: "white", fontSize: 16 },
+  homeButtonText: {
+    fontSize: 20,
+    color: "#fff",
+    fontWeight: "bold",
+    fontFamily: Constants.fontFamily,
+  },
 });

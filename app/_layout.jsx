@@ -1,7 +1,16 @@
 import { StatusBar } from "expo-status-bar";
 import { Stack } from "expo-router";
+import { useFonts } from "expo-font";
 
 const RootLayout = () => {
+  let [fontsLoaded] = useFonts({
+    FiraSans: require("../assets/font/FiraSans-Regular.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <>
       <StatusBar style="dark" />

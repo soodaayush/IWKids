@@ -7,7 +7,10 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+
 import { useNavigation } from "@react-navigation/native";
+
+import Constants from "../constants/constants";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -61,7 +64,7 @@ const styles = StyleSheet.create({
     paddingTop: 100,
     paddingHorizontal: 20,
     alignItems: "center",
-    backgroundColor: "#F9F9FF",
+    fontFamily: Constants.fontFamily,
   },
   mascot: {
     width: 166,
@@ -72,6 +75,7 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "bold",
     color: "#4A4A8C",
+    fontFamily: Constants.fontFamily,
     marginBottom: 6,
   },
   subtitle: {
@@ -79,13 +83,14 @@ const styles = StyleSheet.create({
     color: "#888",
     marginBottom: 20,
     textAlign: "center",
+    fontFamily: Constants.fontFamily,
   },
   buttonGrid: {
     width: "100%",
     gap: 12,
   },
   optionButton: {
-    backgroundColor: "#FFD166",
+    backgroundColor: "#B31E8C",
     paddingVertical: 14,
     paddingHorizontal: 20,
     borderRadius: 14,
@@ -94,10 +99,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 3,
+    fontFamily: Constants.fontFamily,
   },
   buttonText: {
     fontSize: 18,
-    color: "#2F2F2F",
+    color: "#fff",
     fontWeight: "600",
+    fontFamily: Constants.fontFamily,
   },
 });
