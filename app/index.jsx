@@ -14,7 +14,10 @@ export default function Home() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={require("../assets/icon.png")} style={styles.mascot} />
+      <Image
+        source={require("../assets/IWK-Logo-Colour-1080.png")}
+        style={styles.mascot}
+      />
 
       <Text style={styles.welcomeText}>Hi! I'm Buddy 🐻</Text>
       <Text style={styles.subtitle}>What would you like to do today?</Text>
@@ -50,13 +53,13 @@ export default function Home() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 60,
+    paddingTop: 100,
     paddingHorizontal: 20,
     alignItems: "center",
     backgroundColor: "#F9F9FF",
   },
   mascot: {
-    width: 120,
+    width: 166,
     height: 120,
     marginBottom: 20,
   },
