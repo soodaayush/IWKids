@@ -14,10 +14,7 @@ export default function Home() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image
-        source={require("../assets/IWK-Logo-Colour-1080.png")}
-        style={styles.mascot}
-      />
+      <Image source={require("../assets/IWK.png")} style={styles.mascot} />
 
       <Text style={styles.welcomeText}>Hi! I'm Buddy 🐻</Text>
       <Text style={styles.subtitle}>What would you like to do today?</Text>
@@ -30,6 +27,12 @@ export default function Home() {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.optionButton}
+          onPress={() => navigation.navigate("CheckIn")}
+        >
+          <Text style={styles.buttonText}>✅ Check in</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.optionButton}
           onPress={() => navigation.navigate("WaitTime")}
         >
           <Text style={styles.buttonText}>⏳ Check wait time</Text>
@@ -38,7 +41,9 @@ export default function Home() {
           style={styles.optionButton}
           onPress={() => navigation.navigate("CalmZone")}
         >
-          <Text style={styles.buttonText}>🎨 Do something fun!</Text>
+          <Text style={styles.buttonText}>
+            🎨 Do something fun while waiting!
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.optionButton}

@@ -14,7 +14,7 @@ export default function Feedback() {
   const [selectedEmoji, setSelectedEmoji] = useState(null);
   const [comments, setComments] = useState("");
 
-  const emojis = ["😄", "🙂", "😐", "🙁", "😢"];
+  const emojis = ["😄", "😢"];
 
   const handleSubmit = () => {
     Alert.alert("Thank you!", "Your feedback was sent to Buddy 🧸");
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F0FFF4",
-    paddingTop: 50,
+    paddingTop: 100,
     paddingHorizontal: 24,
   },
   title: {

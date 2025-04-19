@@ -8,6 +8,7 @@ const RootLayout = () => {
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="SymptomChecker" options={{ headerShown: false }} />
+        <Stack.Screen name="CheckIn" options={{ headerShown: false }} />
         <Stack.Screen name="WaitTime" options={{ headerShown: false }} />
         <Stack.Screen name="CalmZone" options={{ headerShown: false }} />
         <Stack.Screen name="Feedback" options={{ headerShown: false }} />

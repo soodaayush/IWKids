@@ -11,6 +11,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ActivityIndicator,
+  Image,
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
@@ -109,7 +110,7 @@ export default function SymptomChecker() {
       keyboardVerticalOffset={90}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{ flex: 1, paddingHorizontal: 10, paddingTop: 40 }}>
+        <View style={{ flex: 1, paddingHorizontal: 10 }}>
           <View
             style={{
               flexDirection: "row",
@@ -175,14 +176,14 @@ export default function SymptomChecker() {
               value={input}
               onChangeText={setInput}
               placeholder="Ask your question..."
-              placeholderTextColor="#A9A9A9" 
+              placeholderTextColor="#A9A9A9"
             />
             <TouchableOpacity
               style={{
                 backgroundColor: "#007AFF",
                 paddingVertical: 12,
                 paddingHorizontal: 18,
-                borderRadius: 25, 
+                borderRadius: 25,
                 justifyContent: "center",
                 alignItems: "center",
                 marginLeft: 10,
@@ -204,7 +205,7 @@ export default function SymptomChecker() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff", paddingTop: 30 },
+  container: { flex: 1, backgroundColor: "#fff", paddingTop: 50 },
   title: { fontSize: 22, fontWeight: "bold", padding: 16, textAlign: "center" },
   chatContainer: { flex: 1, paddingHorizontal: 16 },
   messageBubble: {
