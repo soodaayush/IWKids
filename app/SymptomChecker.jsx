@@ -21,8 +21,9 @@ import Constants from "../constants/constants";
 
 import { API_KEY } from "@env";
 
+import Header from "../components/Header";
+
 export default function SymptomChecker() {
-  const navigation = useNavigation();
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -114,39 +115,11 @@ export default function SymptomChecker() {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <StatusBar style="light" />
-      <View
-        style={{
-          backgroundColor: "#104C98",
-          alignItems: "center",
-          paddingTop: 50,
-          paddingLeft: 10,
-          paddingRight: 10,
-          paddingBottom: 20,
-        }}
-      >
-        <View style={{ alignItems: "flex-start", width: "100%" }}>
-          <TouchableOpacity
-            style={styles.homeButton}
-            onPress={() => navigation.navigate("index")}
-          >
-            <Text style={styles.homeButtonText}>← Home</Text>
-          </TouchableOpacity>
-        </View>
-        <Text
-          style={{
-            fontSize: 24,
-            marginTop: 20,
-            color: "#fff",
-            fontWeight: "bold",
-            fontFamily: Constants.fontFamily,
-          }}
-        >
-          Symptom Checker
-        </Text>
-      </View>
+      <Header title="How can I help?" />
       <View
         style={{
           flex: 1,
+          paddingTop: 30,
           paddingHorizontal: 10,
           justifyContent: "space-between",
         }}
@@ -185,7 +158,7 @@ export default function SymptomChecker() {
                 borderRadius: 25,
                 paddingHorizontal: 15,
                 paddingVertical: 10,
-                fontSize: 16,
+                fontSize: 20,
                 backgroundColor: "#F0F8FF",
                 shadowColor: "#888",
                 shadowOffset: { width: 0, height: 2 },
@@ -197,7 +170,7 @@ export default function SymptomChecker() {
               }}
               value={input}
               onChangeText={setInput}
-              placeholder="Ask your question..."
+              placeholder="Please describe your symptoms in a few words..."
               placeholderTextColor="#A9A9A9"
               multiline
               numberOfLines={3}
@@ -273,14 +246,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   sendButton: { justifyContent: "center", alignItems: "center", marginLeft: 8 },
-  sendText: { fontSize: 18 },
-  homeButton: {
-    alignItems: "center",
-  },
-  homeButtonText: {
-    fontSize: 20,
-    color: "#fff",
-    fontWeight: "bold",
-    fontFamily: Constants.fontFamily,
-  },
+  sendText: { fontSize: 18, color: "#fff" },
 });

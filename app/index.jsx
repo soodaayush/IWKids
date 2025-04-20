@@ -8,6 +8,8 @@ import {
   ScrollView,
 } from "react-native";
 
+import { StatusBar } from "expo-status-bar";
+
 import { useNavigation } from "@react-navigation/native";
 
 import Constants from "../constants/constants";
@@ -17,16 +19,17 @@ export default function Home() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <StatusBar style="dark" />
       <Image source={require("../assets/IWK.png")} style={styles.mascot} />
 
       <Text style={styles.welcomeText}>Hi! I'm Buddy 🐻</Text>
-      <Text style={styles.subtitle}>What would you like to do today?</Text>
+      <Text style={styles.subtitle}>How may I help you today?</Text>
       <View style={styles.buttonGrid}>
         <TouchableOpacity
           style={styles.optionButton}
           onPress={() => navigation.navigate("SymptomChecker")}
         >
-          <Text style={styles.buttonText}>🧠 Tell me how you feel</Text>
+          <Text style={styles.buttonText}>🧘 Tell me how you feel</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.optionButton}
@@ -52,7 +55,7 @@ export default function Home() {
           style={styles.optionButton}
           onPress={() => navigation.navigate("Feedback")}
         >
-          <Text style={styles.buttonText}>📝 Give feedback</Text>
+          <Text style={styles.buttonText}>📝 Provide feedback</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

@@ -10,10 +10,16 @@ import { useNavigation } from "@react-navigation/native";
 
 import Constants from "../constants/constants";
 
+import Header from "../components/Header";
+
 export default function CalmZone() {
   const navigation = useNavigation();
 
   const activities = [
+    {
+      title: "🎮 Games",
+      description: "Play exciting games and have fun!",
+    },
     {
       title: "🎨 Coloring Pages",
       description: "Tap to color online or ask for printed pages.",
@@ -33,37 +39,35 @@ export default function CalmZone() {
   ];
 
   return (
-    <ScrollView
+    <View
       style={styles.container}
       contentContainerStyle={{ paddingBottom: 60 }}
     >
-      <Text style={styles.title}>🌈 Calm Zone</Text>
-      <Text style={styles.subtitle}>
-        Buddy is here to help you feel calm and cozy.
-      </Text>
+      <Header title="Calm Zone" />
+      <ScrollView style={styles.content}>
+        <Text style={styles.title}>🌈 Calm Zone</Text>
+        <Text style={styles.subtitle}>
+          Buddy is here to help you feel calm and cozy.
+        </Text>
 
-      {activities.map((item, index) => (
-        <View key={index} style={styles.card}>
-          <Text style={styles.cardTitle}>{item.title}</Text>
-          <Text style={styles.cardDescription}>{item.description}</Text>
-        </View>
-      ))}
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("index")}
-      >
-        <Text style={styles.buttonText}>🏠 Back to Home</Text>
-      </TouchableOpacity>
-    </ScrollView>
+        {activities.map((item, index) => (
+          <View key={index} style={styles.card}>
+            <Text style={styles.cardTitle}>{item.title}</Text>
+            <Text style={styles.cardDescription}>{item.description}</Text>
+          </View>
+        ))}
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 100,
+  },
+  content: {
     paddingHorizontal: 20,
+    marginTop: 30,
   },
   title: {
     fontSize: 26,

@@ -18,9 +18,19 @@ import * as SMS from "expo-sms";
 
 import Constants from "../constants/constants";
 
+import Header from "../components/Header";
+
+import {
+  TWILIO_ACCOUNT_SID,
+  TWILIO_AUTH_TOKEN,
+  TWILIO_PHONE_NUMBER,
+} from "@env";
+
 const QUEUE_KEY = "checkinQueue";
 
 export default function CheckInScreen() {
+  AsyncStorage.clear();
+
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [patientNumber, setPatientNumber] = useState(null);
@@ -72,16 +82,21 @@ export default function CheckInScreen() {
     setPosition(updatedQueue.length);
     setIsAlreadyCheckedIn(false); // Reset check-in status if it's a new check-in
 
-    const isAvailable = await SMS.isAvailableAsync();
-    if (isAvailable) {
-      const { result } = await SMS.sendSMSAsync(
-        [`${phoneNumber}`], // recipient phone numbers
-        `Hi ${name}, you are checked in! Your number: ${newNumber} Position in Line: ${position}`
-      );
-      console.log(result); // sent, cancelled
-    } else {
-      alert("SMS service is not available on this device.");
-    }
+    // const isAvailable = await SMS.isAvailableAsync();
+    // if (isAvailable) {
+    //   const { result } = await SMS.sendSMSAsync(
+    //     [`${phoneNumber}`], // recipient phone numbers
+    //     `Hi ${name}, you are checked in! Your number: ${newNumber} Position in Line: ${position}`
+    //   );
+    //   console.log(result); // sent, cancelled
+    // } else {
+    //   alert("SMS service is not available on this device.");
+    // }
+
+    sendSMSViaTwilio(
+      phoneNumber,
+      `Hi ${name}, you are checked in! Your number is: ${newNumber} Your estimated position in line: ${position}`
+    );
 
     setName("");
     setPhoneNumber("");
@@ -91,22 +106,51 @@ export default function CheckInScreen() {
     navigation.navigate("index");
   };
 
+  const sendSMSViaTwilio = async (to, body) => {
+    const accountSid = TWILIO_ACCOUNT_SID;
+    const authToken = TWILIO_AUTH_TOKEN;
+    const from = TWILIO_PHONE_NUMBER;
+
+    const credentials = btoa(`${accountSid}:${authToken}`);
+
+    const form = new URLSearchParams();
+    form.append("To", to);
+    form.append("From", from);
+    form.append("Body", body);
+
+    try {
+      const response = await fetch(
+        `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Basic ${credentials}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: form.toString(),
+        }
+      );
+
+      const result = await response.json();
+      console.log("Twilio Response:", result);
+      return result;
+    } catch (error) {
+      console.error("Error sending SMS:", error);
+      throw error;
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
+      <Header title="Check In" />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.inner}>
-          {/* Home Button */}
-          <TouchableOpacity
-            style={styles.homeButton}
-            onPress={() => navigation.navigate("index")}
-          >
-            <Text style={styles.homeButtonText}>← Home</Text>
-          </TouchableOpacity>
-
-          <Text style={styles.title}>Check In</Text>
+          <Text style={styles.title}>
+            Please provide your contact information
+          </Text>
 
           <TextInput
             style={styles.input}
@@ -160,26 +204,15 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
-    paddingTop: Platform.OS === "ios" ? 60 : 40,
+    paddingTop: 30,
     paddingHorizontal: 20,
-  },
-  homeButton: {
-    position: "absolute",
-    top: Platform.OS === "ios" ? 50 : 30,
-    left: 20,
-  },
-  homeButtonText: {
-    fontSize: 20,
-    color: "#00A9E0",
-    fontWeight: "bold",
-    fontFamily: Constants.fontFamily,
   },
   title: {
     fontSize: 28,
     textAlign: "center",
     marginVertical: 30,
     fontWeight: "bold",
-    color: "#005DAA",
+    color: "#104C98",
     fontFamily: Constants.fontFamily,
   },
   input: {
@@ -193,7 +226,7 @@ const styles = StyleSheet.create({
     fontFamily: Constants.fontFamily,
   },
   checkInButton: {
-    backgroundColor: "#00A9E0",
+    backgroundColor: "#3AAE2A",
     paddingVertical: 14,
     borderRadius: 25,
     alignItems: "center",

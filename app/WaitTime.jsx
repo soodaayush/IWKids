@@ -10,6 +10,8 @@ import {
 
 import { useNavigation } from "@react-navigation/native";
 
+import Header from "../components/Header";
+
 import Constants from "../constants/constants";
 
 export default function WaitTime() {
@@ -26,36 +28,7 @@ export default function WaitTime() {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          backgroundColor: "#104C98",
-          alignItems: "center",
-          paddingTop: 50,
-          paddingLeft: 10,
-          paddingRight: 10,
-          paddingBottom: 20,
-        }}
-      >
-        <View style={{ alignItems: "flex-start", width: "100%" }}>
-          <TouchableOpacity
-            style={styles.homeButton}
-            onPress={() => navigation.navigate("index")}
-          >
-            <Text style={styles.homeButtonText}>← Home</Text>
-          </TouchableOpacity>
-        </View>
-        <Text
-          style={{
-            fontSize: 24,
-            marginTop: 20,
-            color: "#fff",
-            fontWeight: "bold",
-            fontFamily: Constants.fontFamily,
-          }}
-        >
-          ⏳ Wait Time Checker
-        </Text>
-      </View>
+      <Header title="Checking Wait Times" />
       <View style={styles.content}>
         <Text style={styles.subtitle}>
           Buddy is checking with the hospital... 🧸
@@ -83,6 +56,12 @@ export default function WaitTime() {
           />
         )}
       </View>
+      <Text style={styles.subtitle}>
+        DISCLAIMER: The wait times presented here are an approximation
+        determined from statistical data.
+      </Text>
+      <Text></Text>
+      <Text style={styles.subtitle}>Actual wait times can vary.</Text>
     </View>
   );
 }
@@ -93,7 +72,7 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 24,
-    paddingTop: 50,
+    paddingTop: 30,
     alignItems: "center",
   },
   title: {
@@ -106,12 +85,13 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     color: "#666",
-    marginBottom: 24,
     textAlign: "center",
     fontFamily: Constants.fontFamily,
   },
   infoBox: {
-    backgroundColor: "#94D600",
+    backgroundColor: "#3AAE2A",
+    marginTop: 20,
+    marginBottom: 20,
     padding: 20,
     borderRadius: 16,
     alignItems: "center",
@@ -119,15 +99,17 @@ const styles = StyleSheet.create({
   infoText: {
     fontSize: 18,
     marginBottom: 10,
+    color: "#fff",
     fontFamily: Constants.fontFamily,
   },
   highlight: {
     fontWeight: "bold",
+    color: "#fff",
     fontFamily: Constants.fontFamily,
   },
   smallText: {
     fontSize: 14,
-    color: "#777",
+    color: "#fff",
     marginTop: 10,
     textAlign: "center",
     fontFamily: Constants.fontFamily,

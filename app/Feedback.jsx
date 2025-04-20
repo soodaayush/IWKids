@@ -13,6 +13,8 @@ import { useNavigation } from "@react-navigation/native";
 
 import Constants from "../constants/constants";
 
+import Header from "../components/Header";
+
 export default function Feedback() {
   const navigation = useNavigation();
   const [selectedEmoji, setSelectedEmoji] = useState(null);
@@ -29,44 +31,41 @@ export default function Feedback() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>📝 How was your visit?</Text>
-      <Text style={styles.subtitle}>
-        Choose one that best describes how you feel:
-      </Text>
+      <Header title="Help us get better" />
+      <View style={styles.content}>
+        <Text style={styles.title}>📝 How was your visit?</Text>
+        <Text style={styles.subtitle}>
+          Choose one that best describes how your experience:
+        </Text>
 
-      <View style={styles.emojiRow}>
-        {emojis.map((emoji, index) => (
-          <TouchableOpacity key={index} onPress={() => setSelectedEmoji(emoji)}>
-            <Text
-              style={[
-                styles.emoji,
-                selectedEmoji === emoji && styles.selectedEmoji,
-              ]}
+        <View style={styles.emojiRow}>
+          {emojis.map((emoji, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => setSelectedEmoji(emoji)}
             >
-              {emoji}
-            </Text>
-          </TouchableOpacity>
-        ))}
+              <Text
+                style={[
+                  styles.emoji,
+                  selectedEmoji === emoji && styles.selectedEmoji,
+                ]}
+              >
+                {emoji}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        <TextInput
+          style={styles.input}
+          placeholder="Anything else you'd like to tell us?"
+          multiline
+          value={comments}
+          onChangeText={setComments}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Submit Feedback</Text>
+        </TouchableOpacity>
       </View>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Anything else you'd like to tell us?"
-        multiline
-        value={comments}
-        onChangeText={setComments}
-      />
-
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>✅ Submit Feedback</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[styles.button, styles.homeButton]}
-        onPress={() => navigation.navigate("index")}
-      >
-        <Text style={styles.buttonText}>🏠 Back to Home</Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -74,8 +73,10 @@ export default function Feedback() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 100,
+  },
+  content: {
     paddingHorizontal: 24,
+    marginTop: 30,
   },
   title: {
     fontSize: 24,
@@ -94,7 +95,8 @@ const styles = StyleSheet.create({
   },
   emojiRow: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "center",
+    gap: 50,
     marginBottom: 30,
   },
   emoji: {
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
   },
   selectedEmoji: {
     opacity: 1,
-    transform: [{ scale: 1.2 }],
+    transform: [{ scale: 1.5 }],
   },
   input: {
     backgroundColor: "#FFFFFF",
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
     fontFamily: Constants.fontFamily,
   },
   button: {
-    backgroundColor: "#43A047",
+    backgroundColor: "#3AAE2A",
     paddingVertical: 12,
     borderRadius: 24,
     alignItems: "center",
