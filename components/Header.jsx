@@ -2,6 +2,8 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 
+import { StatusBar } from "expo-status-bar";
+
 import Constants from "../constants/constants";
 
 import Home from "../assets/home.svg";
@@ -23,6 +25,7 @@ const Header = (props) => {
         gap: 20,
       }}
     >
+      <StatusBar style="light" />
       <View>
         <TouchableOpacity
           style={styles.homeButton}

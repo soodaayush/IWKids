@@ -3,6 +3,8 @@ import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 import { useRouter, usePathname } from "expo-router";
 
+import { useNavigation } from "@react-navigation/native";
+
 import Phone from "../assets/phone.svg";
 import Web from "../assets/web.svg";
 import Map from "../assets/map.svg";
@@ -10,6 +12,7 @@ import Map from "../assets/map.svg";
 import Constants from "../constants/constants";
 
 const Footer = () => {
+  const navigation = useNavigation();
   const router = useRouter();
   const path = usePathname();
 
@@ -22,9 +25,9 @@ const Footer = () => {
   }
 
   function openMap() {
-    // if (path !== "/map") {
-    //   router.push("/map");
-    // }
+    if (path !== "/Map") {
+      navigation.navigate("Map");
+    }
   }
 
   return (
@@ -45,7 +48,7 @@ const Footer = () => {
           fill={Constants.headerFooterIconColor}
         />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => openMap()}>
+      <TouchableOpacity onPress={openMap}>
         <Map
           height={25}
           width={25}

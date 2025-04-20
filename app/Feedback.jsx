@@ -6,10 +6,9 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 
-import { useNavigation } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
 
 import Constants from "../constants/constants";
 
@@ -17,57 +16,67 @@ import Header from "../components/Header";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Feedback() {
-  const navigation = useNavigation();
   const [selectedEmoji, setSelectedEmoji] = useState(null);
+  const [feedbackFinished, setFeedbackFinished] = useState(false);
   const [comments, setComments] = useState("");
 
   const emojis = ["😄", "😢"];
 
   const handleSubmit = () => {
-    Alert.alert("Thank you!", "Your feedback was sent to Buddy 🧸");
+    if (!comments.trim() || !selectedEmoji) return;
+
     setSelectedEmoji(null);
     setComments("");
+    setFeedbackFinished(true);
     AsyncStorage.clear();
-    navigation.navigate("index");
   };
 
   return (
     <View style={styles.container}>
       <Header title="Help us get better" />
-      <View style={styles.content}>
-        <Text style={styles.title}>📝 How was your visit?</Text>
-        <Text style={styles.subtitle}>
-          Choose one that best describes your experience:
-        </Text>
+      {!feedbackFinished ? (
+        <View style={styles.content}>
+          <Text style={styles.title}>📝 How was your visit?</Text>
+          <Text style={styles.subtitle}>
+            Choose one that best describes your experience:
+          </Text>
 
-        <View style={styles.emojiRow}>
-          {emojis.map((emoji, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => setSelectedEmoji(emoji)}
-            >
-              <Text
-                style={[
-                  styles.emoji,
-                  selectedEmoji === emoji && styles.selectedEmoji,
-                ]}
+          <View style={styles.emojiRow}>
+            {emojis.map((emoji, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => setSelectedEmoji(emoji)}
               >
-                {emoji}
-              </Text>
-            </TouchableOpacity>
-          ))}
+                <Text
+                  style={[
+                    styles.emoji,
+                    selectedEmoji === emoji && styles.selectedEmoji,
+                  ]}
+                >
+                  {emoji}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Anything else you'd like to tell us?"
+            multiline
+            value={comments}
+            onChangeText={setComments}
+          />
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.buttonText}>Submit Feedback</Text>
+          </TouchableOpacity>
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Anything else you'd like to tell us?"
-          multiline
-          value={comments}
-          onChangeText={setComments}
-        />
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Submit Feedback</Text>
-        </TouchableOpacity>
-      </View>
+      ) : (
+        <View style={styles.content}>
+          <Text style={styles.subtitle}>
+            Thank you for submitting your feedback! It is greatly appreciated
+            and helps us improve our services!
+          </Text>
+        </View>
+      )}
     </View>
   );
 }

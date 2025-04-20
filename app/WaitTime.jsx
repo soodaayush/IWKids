@@ -1,28 +1,69 @@
 import { useEffect, useState } from "react";
 
-import {
-  View,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
+
+import { StatusBar } from "expo-status-bar";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Header from "../components/Header";
 
 import Constants from "../constants/constants";
 
+const QUEUE_KEY = "checkinQueue";
+
 export default function WaitTime() {
   const navigation = useNavigation();
   const [waitTime, setWaitTime] = useState(null);
   const [queuePosition, setQueuePosition] = useState(null);
+  const [isCheckedIn, setIsCheckedIn] = useState(false);
+
+  const fetchFromStorage = async (key) => {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        const parsedObject = JSON.parse(value);
+        return parsedObject;
+      }
+    } catch (error) {
+      console.error("Failed to fetch object:", error);
+    }
+    return null;
+  };
+
+  function generateRandomWaitTime() {
+    const totalMinutes = Math.floor(Math.random() * 120) + 1; // 1 to 120 minutes
+
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    if (hours > 0 && minutes > 0) {
+      return `${hours} hour${hours > 1 ? "s" : ""} ${minutes} minute${
+        minutes > 1 ? "s" : ""
+      }`;
+    } else if (hours > 0) {
+      return `${hours} hour${hours > 1 ? "s" : ""}`;
+    } else {
+      return `${minutes} minute${minutes > 1 ? "s" : ""}`;
+    }
+  }
 
   useEffect(() => {
+    fetchFromStorage(QUEUE_KEY).then((entry) => {
+      if (entry != null) {
+        setIsCheckedIn(true);
+        setQueuePosition(entry[0].number);
+        return;
+      } else {
+        setIsCheckedIn(false);
+        setQueuePosition("N/A");
+      }
+    });
+
     setTimeout(() => {
-      setWaitTime("42 minutes");
-      setQueuePosition(3);
+      setWaitTime(generateRandomWaitTime());
     }, 1500);
   }, []);
 
@@ -42,7 +83,18 @@ export default function WaitTime() {
             </Text>
             <Text style={styles.infoText}>
               Your place in line:{" "}
-              <Text style={styles.highlight}>#{queuePosition}</Text>
+              {isCheckedIn ? (
+                <Text style={styles.highlight}>#{queuePosition}</Text>
+              ) : (
+                <Text
+                  onPress={() => {
+                    navigation.navigate("CheckIn");
+                  }}
+                  style={styles.link}
+                >
+                  Please check-in
+                </Text>
+              )}
             </Text>
             <Text style={styles.smallText}>
               You’ll get SMS updates as things change 📱
@@ -106,6 +158,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#fff",
     fontFamily: Constants.fontFamily,
+  },
+  link: {
+    fontWeight: "bold",
+    color: "#fff",
+    fontFamily: Constants.fontFamily,
+    textDecorationLine: "underline",
   },
   smallText: {
     fontSize: 14,

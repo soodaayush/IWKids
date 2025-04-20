@@ -2,11 +2,7 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import Constants from "../constants/constants";
 
-import { useNavigation } from "@react-navigation/native";
-
 const Button = (props) => {
-  const navigation = useNavigation();
-
   return (
     <TouchableOpacity style={styles.optionButton} onPress={props.function}>
       <Text style={styles.buttonText}>{props.text}</Text>

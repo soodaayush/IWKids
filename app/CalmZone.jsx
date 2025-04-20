@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { StatusBar } from "expo-status-bar";
+
 import { useNavigation } from "@react-navigation/native";
 
 import Constants from "../constants/constants";

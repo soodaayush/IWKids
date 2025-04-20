@@ -11,8 +11,9 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
+import { StatusBar } from "expo-status-bar";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
 
 import Constants from "../constants/constants";
 
@@ -36,14 +37,12 @@ export default function CheckInScreen() {
   const [patientNumber, setPatientNumber] = useState(null);
   const [position, setPosition] = useState(null);
   const [queue, setQueue] = useState([]);
-  const [isAlreadyCheckedIn, setIsAlreadyCheckedIn] = useState(false); // Track if user is already checked in
-  const navigation = useNavigation();
+  const [isAlreadyCheckedIn, setIsAlreadyCheckedIn] = useState(false);
 
   const fetchFromStorage = async (key) => {
     try {
       const value = await AsyncStorage.getItem(key);
       if (value !== null) {
-        // parse stringified object
         const parsedObject = JSON.parse(value);
         return parsedObject;
       }
@@ -56,7 +55,6 @@ export default function CheckInScreen() {
   useEffect(() => {
     fetchFromStorage(QUEUE_KEY).then((entry) => {
       if (entry != null) {
-        console.log(entry);
         setPatientNumber(entry[0].number);
         setPosition(entry[0].number);
         setIsAlreadyCheckedIn(true);
@@ -98,22 +96,9 @@ export default function CheckInScreen() {
     setPosition(updatedQueue.length);
     setIsAlreadyCheckedIn(true); // Reset check-in status if it's a new check-in
 
-    console.log(newEntry);
-
-    // const isAvailable = await SMS.isAvailableAsync();
-    // if (isAvailable) {
-    //   const { result } = await SMS.sendSMSAsync(
-    //     [`${phoneNumber}`], // recipient phone numbers
-    //     `Hi ${name}, you are checked in! Your number: ${newNumber} Position in Line: ${position}`
-    //   );
-    //   console.log(result); // sent, cancelled
-    // } else {
-    //   alert("SMS service is not available on this device.");
-    // }
-
     sendSMSViaTwilio(
       phoneNumber,
-      `Hi ${name}, you are checked in! Your number is: ${newNumber} Your estimated position in line: ${position}`
+      `Hi ${name}, you are checked in! Your number is: ${newNumber} Your estimated position in line: ${newNumber}. ER staff has been notified, thank you for your patience.`
     );
 
     setName("");
@@ -148,12 +133,24 @@ export default function CheckInScreen() {
       );
 
       const result = await response.json();
-      console.log("Twilio Response:", result);
       return result;
     } catch (error) {
       console.error("Error sending SMS:", error);
       throw error;
     }
+  };
+
+  const formatPhoneNumber = (value) => {
+    const cleaned = ("" + value).replace(/\D/g, "");
+
+    const match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
+    if (!match) return value;
+
+    let formatted = "";
+    if (match[1]) formatted = `(${match[1]}`;
+    if (match[2]) formatted += `) ${match[2]}`;
+    if (match[3]) formatted += `-${match[3]}`;
+    return formatted;
   };
 
   return (
@@ -180,9 +177,16 @@ export default function CheckInScreen() {
                 style={styles.input}
                 placeholder="Enter your phone number"
                 value={phoneNumber}
-                onChangeText={setPhoneNumber}
+                keyboardType="phone-pad"
+                maxLength={14} // optional, prevents overly long input
+                onChangeText={(text) => setPhoneNumber(formatPhoneNumber(text))}
               />
               <Button text="Check In" function={handleCheckIn} />
+              <Text></Text>
+              <Text style={styles.text}>
+                Your phone number is used to provide you instant communication
+                via SMS messaging. Your carrier charges may apply.
+              </Text>
             </View>
           )}
           {isAlreadyCheckedIn && (
@@ -198,7 +202,8 @@ export default function CheckInScreen() {
               <Text></Text>
               <Text style={styles.resultText}>
                 Thank you for checking in! You should be receiving a SMS
-                confirmation momentarily.
+                confirmation momentarily. ER staff has been notified, thank you
+                for your patience.
               </Text>
             </View>
           )}
@@ -224,6 +229,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: Constants.headerColor,
     fontFamily: Constants.fontFamily,
+  },
+  text: {
+    fontFamily: Constants.fontFamily,
+    textAlign: "center",
   },
   input: {
     borderWidth: 1,

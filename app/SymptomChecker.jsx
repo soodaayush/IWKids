@@ -15,7 +15,7 @@ import {
 
 import { StatusBar } from "expo-status-bar";
 
-import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Constants from "../constants/constants";
 
@@ -29,48 +29,43 @@ export default function SymptomChecker() {
   const [loading, setLoading] = useState(false);
   const flatListRef = useRef();
 
-  const initialMessage = [
-    {
-      role: "system",
-      content: "You are a helpful hospital check-in assistant.",
-    },
-    {
-      role: "assistant",
-      content: "Hi there! I'm here to help you check in. Can I get your name?",
-    },
-  ];
-
-  const getInitialMessage = async () => {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo", // or "gpt-4"
-        messages: [
-          {
-            role: "system",
-            content:
-              "You are a friendly, patient-focused hospital check-in assistant. You help patients check in, provide queue status, and offer calming support.",
-          },
-          {
-            role: "assistant",
-            content:
-              "👋 Hi there! Welcome to Bay View Hospital. I'm here to help you check in. Can I start by getting your name?",
-          },
-        ],
-      }),
-    });
-
-    const data = await response.json();
-    return data.choices[0].message.content;
+  const initialPrompt = {
+    id: Date.now().toString(),
+    text: "👋 Bonjour! / Hello! I'm your friendly assistant at IWK. I'm here to help—can you tell me your name and what’s bothering you today?",
+    sender: "ai",
   };
 
   useEffect(() => {
-    getInitialMessage();
+    const loadMessages = async () => {
+      try {
+        const stored = await AsyncStorage.getItem("chat_messages");
+        if (stored !== null) {
+          setMessages(JSON.parse(stored));
+        } else {
+          setMessages([initialPrompt]);
+        }
+      } catch (e) {
+        console.error("Error loading messages", e);
+        setMessages([initialPrompt]);
+      }
+    };
+
+    loadMessages();
   }, []);
+
+  useEffect(() => {
+    const saveMessages = async () => {
+      try {
+        await AsyncStorage.setItem("chat_messages", JSON.stringify(messages));
+      } catch (e) {
+        console.error("Error saving messages", e);
+      }
+    };
+
+    if (messages.length > 0) {
+      saveMessages();
+    }
+  }, [messages]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -152,12 +147,17 @@ export default function SymptomChecker() {
     </View>
   );
 
+  const scrollToBottom = () => {
+    requestAnimationFrame(() => {
+      flatListRef.current?.scrollToEnd({ animated: true });
+    });
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      <StatusBar style="light" />
       <Header title="How can I help?" />
       <View
         style={{
@@ -172,10 +172,8 @@ export default function SymptomChecker() {
           keyExtractor={(item) => item.id}
           renderItem={renderItem}
           contentContainerStyle={{ paddingVertical: 10, flexGrow: 1 }}
-          onContentSizeChange={() =>
-            flatListRef.current?.scrollToEnd({ animated: true })
-          }
-          onLayout={() => flatListRef.current?.scrollToEnd({ animated: true })}
+          onContentSizeChange={scrollToBottom}
+          onLayout={scrollToBottom}
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="interactive"
           showsVerticalScrollIndicator
@@ -206,7 +204,6 @@ export default function SymptomChecker() {
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: 0.3,
                 shadowRadius: 5,
-                marginBottom: 20,
                 maxHeight: 75,
                 fontFamily: Constants.fontFamily,
               }}

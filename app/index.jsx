@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 
 import { StatusBar } from "expo-status-bar";
@@ -6,10 +7,40 @@ import Constants from "../constants/constants";
 
 import Button from "../components/Button";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { useNavigation } from "@react-navigation/native";
+
+const QUEUE_KEY = "checkinQueue";
 
 export default function Home() {
   const navigation = useNavigation();
+
+  const [isCheckedIn, setIsCheckedIn] = useState(false);
+
+  const fetchFromStorage = async (key) => {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        const parsedObject = JSON.parse(value);
+        return parsedObject;
+      }
+    } catch (error) {
+      console.error("Failed to fetch object:", error);
+    }
+    return null;
+  };
+
+  useEffect(() => {
+    fetchFromStorage(QUEUE_KEY).then((entry) => {
+      if (entry != null) {
+        setIsCheckedIn(true);
+        return;
+      } else {
+        setIsCheckedIn(false);
+      }
+    });
+  }, []);
 
   function navigateToPage(page) {
     navigation.navigate(page);
@@ -47,12 +78,14 @@ export default function Home() {
               navigateToPage("CalmZone");
             }}
           />
-          <Button
-            text="📝 Provide feedback"
-            function={() => {
-              navigateToPage("Feedback");
-            }}
-          />
+          {isCheckedIn && (
+            <Button
+              text="📝 Provide feedback"
+              function={() => {
+                navigateToPage("Feedback");
+              }}
+            />
+          )}
         </View>
       </View>
     </View>
