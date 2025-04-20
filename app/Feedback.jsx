@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import Constants from "../constants/constants";
 
 import Header from "../components/Header";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Feedback() {
   const navigation = useNavigation();
@@ -26,6 +27,7 @@ export default function Feedback() {
     Alert.alert("Thank you!", "Your feedback was sent to Buddy 🧸");
     setSelectedEmoji(null);
     setComments("");
+    AsyncStorage.clear();
     navigation.navigate("index");
   };
 

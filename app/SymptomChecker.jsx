@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -28,6 +28,49 @@ export default function SymptomChecker() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const flatListRef = useRef();
+
+  const initialMessage = [
+    {
+      role: "system",
+      content: "You are a helpful hospital check-in assistant.",
+    },
+    {
+      role: "assistant",
+      content: "Hi there! I'm here to help you check in. Can I get your name?",
+    },
+  ];
+
+  const getInitialMessage = async () => {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo", // or "gpt-4"
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a friendly, patient-focused hospital check-in assistant. You help patients check in, provide queue status, and offer calming support.",
+          },
+          {
+            role: "assistant",
+            content:
+              "👋 Hi there! Welcome to Bay View Hospital. I'm here to help you check in. Can I start by getting your name?",
+          },
+        ],
+      }),
+    });
+
+    const data = await response.json();
+    return data.choices[0].message.content;
+  };
+
+  useEffect(() => {
+    getInitialMessage();
+  }, []);
 
   const handleSend = async () => {
     if (!input.trim()) return;

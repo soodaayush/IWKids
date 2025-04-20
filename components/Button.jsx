@@ -8,10 +8,7 @@ const Button = (props) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity
-      style={styles.optionButton}
-      onPress={() => navigation.navigate(`${props.navigate}`)}
-    >
+    <TouchableOpacity style={styles.optionButton} onPress={props.function}>
       <Text style={styles.buttonText}>{props.text}</Text>
     </TouchableOpacity>
   );

@@ -4,7 +4,6 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
   StyleSheet,
   Platform,
   KeyboardAvoidingView,
@@ -14,11 +13,12 @@ import {
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import * as SMS from "expo-sms";
 
 import Constants from "../constants/constants";
 
 import Header from "../components/Header";
+
+import Button from "../components/Button";
 
 import {
   TWILIO_ACCOUNT_SID,
@@ -29,7 +29,7 @@ import {
 const QUEUE_KEY = "checkinQueue";
 
 export default function CheckInScreen() {
-  AsyncStorage.clear();
+  // AsyncStorage.clear();
 
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -39,7 +39,31 @@ export default function CheckInScreen() {
   const [isAlreadyCheckedIn, setIsAlreadyCheckedIn] = useState(false); // Track if user is already checked in
   const navigation = useNavigation();
 
+  const fetchFromStorage = async (key) => {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        // parse stringified object
+        const parsedObject = JSON.parse(value);
+        return parsedObject;
+      }
+    } catch (error) {
+      console.error("Failed to fetch object:", error);
+    }
+    return null;
+  };
+
   useEffect(() => {
+    fetchFromStorage(QUEUE_KEY).then((entry) => {
+      if (entry != null) {
+        console.log(entry);
+        setPatientNumber(entry[0].number);
+        setPosition(entry[0].number);
+        setIsAlreadyCheckedIn(true);
+        return;
+      }
+    });
+
     const loadQueue = async () => {
       try {
         const storedQueue = await AsyncStorage.getItem(QUEUE_KEY);
@@ -65,14 +89,6 @@ export default function CheckInScreen() {
   const handleCheckIn = async () => {
     if (!name.trim() || !phoneNumber.trim()) return;
 
-    const existingEntry = queue.find(
-      (entry) => entry.phoneNumber === phoneNumber
-    );
-    if (existingEntry) {
-      setIsAlreadyCheckedIn(true);
-      return;
-    }
-
     const newNumber = queue.length + 1;
     const newEntry = { name, phoneNumber, number: newNumber };
     const updatedQueue = [...queue, newEntry];
@@ -80,7 +96,9 @@ export default function CheckInScreen() {
     setQueue(updatedQueue);
     setPatientNumber(newNumber);
     setPosition(updatedQueue.length);
-    setIsAlreadyCheckedIn(false); // Reset check-in status if it's a new check-in
+    setIsAlreadyCheckedIn(true); // Reset check-in status if it's a new check-in
+
+    console.log(newEntry);
 
     // const isAvailable = await SMS.isAvailableAsync();
     // if (isAvailable) {
@@ -102,8 +120,6 @@ export default function CheckInScreen() {
     setPhoneNumber("");
 
     await saveQueue(updatedQueue); // persist
-
-    navigation.navigate("index");
   };
 
   const sendSMSViaTwilio = async (to, body) => {
@@ -148,48 +164,43 @@ export default function CheckInScreen() {
       <Header title="Check In" />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.inner}>
-          <Text style={styles.title}>
-            Please provide your contact information
-          </Text>
+          {!isAlreadyCheckedIn && (
+            <View>
+              <Text style={styles.title}>
+                Please provide your contact information
+              </Text>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your name"
-            value={name}
-            onChangeText={setName}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your phone number"
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-          />
-
-          <TouchableOpacity
-            style={styles.checkInButton}
-            onPress={handleCheckIn}
-          >
-            <Text style={styles.checkInButtonText}>Check In</Text>
-          </TouchableOpacity>
-
-          {isAlreadyCheckedIn ? (
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your name"
+                value={name}
+                onChangeText={setName}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your phone number"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
+              />
+              <Button text="Check In" function={handleCheckIn} />
+            </View>
+          )}
+          {isAlreadyCheckedIn && (
             <View style={styles.resultContainer}>
+              <Text style={styles.resultText}>✅ You're checked in!</Text>
               <Text style={styles.resultText}>
-                ❌ You have already checked in!
+                Your check-in number:{" "}
+                <Text style={styles.bold}>{patientNumber}</Text>
+              </Text>
+              <Text style={styles.resultText}>
+                Position in Queue: <Text style={styles.bold}>{position}</Text>
+              </Text>
+              <Text></Text>
+              <Text style={styles.resultText}>
+                Thank you for checking in! You should be receiving a SMS
+                confirmation momentarily.
               </Text>
             </View>
-          ) : (
-            patientNumber && (
-              <View style={styles.resultContainer}>
-                <Text style={styles.resultText}>✅ You're checked in!</Text>
-                <Text style={styles.resultText}>
-                  Your number: <Text style={styles.bold}>{patientNumber}</Text>
-                </Text>
-                <Text style={styles.resultText}>
-                  Position in line: <Text style={styles.bold}>{position}</Text>
-                </Text>
-              </View>
-            )
           )}
         </View>
       </TouchableWithoutFeedback>
@@ -238,18 +249,19 @@ const styles = StyleSheet.create({
   },
   resultContainer: {
     marginTop: 30,
-    backgroundColor: "#E7F5FF",
+    backgroundColor: Constants.modalBackground,
     padding: 20,
     borderRadius: 12,
   },
   resultText: {
     fontSize: 18,
     marginBottom: 6,
+    color: Constants.modalTextColor,
     fontFamily: Constants.fontFamily,
   },
   bold: {
     fontWeight: "bold",
-    color: "#005DAA",
+    color: Constants.modalTextColor,
     fontFamily: Constants.fontFamily,
   },
 });

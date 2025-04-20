@@ -52,7 +52,7 @@ export default function WaitTime() {
           <ActivityIndicator
             size="large"
             color="#FFA500"
-            style={{ marginTop: 30 }}
+            style={{ marginTop: 30, marginBottom: 30 }}
           />
         )}
       </View>
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     fontFamily: Constants.fontFamily,
   },
   infoBox: {
-    backgroundColor: "#3AAE2A",
+    backgroundColor: Constants.modalBackground,
     marginTop: 20,
     marginBottom: 20,
     padding: 20,
