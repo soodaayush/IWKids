@@ -4,13 +4,15 @@ import { useNavigation } from "@react-navigation/native";
 
 import Constants from "../constants/constants";
 
+import Home from "../assets/home.svg";
+
 const Header = (props) => {
   const navigation = useNavigation();
 
   return (
     <View
       style={{
-        backgroundColor: "#104C98",
+        backgroundColor: Constants.headerFooterBackground,
         alignItems: "center",
         paddingTop: 70,
         paddingLeft: 10,
@@ -26,7 +28,7 @@ const Header = (props) => {
           style={styles.homeButton}
           onPress={() => navigation.navigate("index")}
         >
-          <Image style={styles.image} source={require("../assets/home.png")} />
+          <Home style={styles.image} height={40} width={40} fill="#fff" />
         </TouchableOpacity>
       </View>
       <View>
@@ -51,9 +53,5 @@ export default Header;
 const styles = StyleSheet.create({
   homeButton: {
     alignItems: "center",
-  },
-  image: {
-    width: 40,
-    height: 40,
   },
 });

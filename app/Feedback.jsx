@@ -35,7 +35,7 @@ export default function Feedback() {
       <View style={styles.content}>
         <Text style={styles.title}>📝 How was your visit?</Text>
         <Text style={styles.subtitle}>
-          Choose one that best describes how your experience:
+          Choose one that best describes your experience:
         </Text>
 
         <View style={styles.emojiRow}>
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#2E7D32",
+    color: Constants.headerColor,
     marginBottom: 10,
     textAlign: "center",
     fontFamily: Constants.fontFamily,
@@ -120,14 +120,11 @@ const styles = StyleSheet.create({
     fontFamily: Constants.fontFamily,
   },
   button: {
-    backgroundColor: "#3AAE2A",
+    backgroundColor: Constants.buttonBackground,
     paddingVertical: 12,
     borderRadius: 24,
     alignItems: "center",
     marginBottom: 16,
-  },
-  homeButton: {
-    backgroundColor: "#66BB6A",
   },
   buttonText: {
     color: "#fff",

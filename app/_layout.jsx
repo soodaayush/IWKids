@@ -2,6 +2,8 @@ import { StatusBar } from "expo-status-bar";
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 
+import Footer from "../components/Footer";
+
 const RootLayout = () => {
   let [fontsLoaded] = useFonts({
     FiraSans: require("../assets/font/FiraSans-Regular.ttf"),
@@ -22,6 +24,7 @@ const RootLayout = () => {
         <Stack.Screen name="CalmZone" options={{ headerShown: false }} />
         <Stack.Screen name="Feedback" options={{ headerShown: false }} />
       </Stack>
+      <Footer />
     </>
   );
 };

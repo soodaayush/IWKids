@@ -119,7 +119,6 @@ export default function SymptomChecker() {
       <View
         style={{
           flex: 1,
-          paddingTop: 30,
           paddingHorizontal: 10,
           justifyContent: "space-between",
         }}
@@ -177,7 +176,7 @@ export default function SymptomChecker() {
             />
             <TouchableOpacity
               style={{
-                backgroundColor: "#B31E8C",
+                backgroundColor: Constants.buttonBackground,
                 paddingVertical: 12,
                 paddingHorizontal: 18,
                 borderRadius: 25,
@@ -202,7 +201,7 @@ export default function SymptomChecker() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#fff" },
+  container: { flex: 1 },
   title: {
     fontSize: 22,
     fontWeight: "bold",

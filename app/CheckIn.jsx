@@ -200,7 +200,6 @@ export default function CheckInScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F6F9FF",
   },
   inner: {
     flex: 1,
@@ -212,7 +211,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginVertical: 30,
     fontWeight: "bold",
-    color: "#104C98",
+    color: Constants.headerColor,
     fontFamily: Constants.fontFamily,
   },
   input: {
@@ -226,7 +225,7 @@ const styles = StyleSheet.create({
     fontFamily: Constants.fontFamily,
   },
   checkInButton: {
-    backgroundColor: "#3AAE2A",
+    backgroundColor: Constants.buttonBackground,
     paddingVertical: 14,
     borderRadius: 25,
     alignItems: "center",
