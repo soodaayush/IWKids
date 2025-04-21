@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+
 import {
   View,
   Text,
@@ -12,8 +13,6 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from "react-native";
-
-import { StatusBar } from "expo-status-bar";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -162,7 +161,6 @@ export default function SymptomChecker() {
       <View
         style={{
           flex: 1,
-          paddingHorizontal: 10,
           justifyContent: "space-between",
         }}
       >
@@ -177,36 +175,19 @@ export default function SymptomChecker() {
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="interactive"
           showsVerticalScrollIndicator
-          style={{ flex: 1 }}
+          style={styles.messageList}
         />
-
         {loading && (
           <ActivityIndicator
             size="small"
-            color="#007AFF"
-            style={{ margin: 10 }}
+            color="#104C98"
+            style={styles.loading}
           />
         )}
-
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inputContainer}>
             <TextInput
-              style={{
-                flex: 1,
-                borderWidth: 2,
-                borderColor: "#ccc",
-                borderRadius: 25,
-                paddingHorizontal: 15,
-                paddingVertical: 10,
-                fontSize: 20,
-                backgroundColor: "#F0F8FF",
-                shadowColor: "#888",
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.3,
-                shadowRadius: 5,
-                maxHeight: 75,
-                fontFamily: Constants.fontFamily,
-              }}
+              style={styles.input}
               value={input}
               onChangeText={setInput}
               placeholder="Please describe your symptoms in a few words..."
@@ -214,23 +195,7 @@ export default function SymptomChecker() {
               multiline
               numberOfLines={3}
             />
-            <TouchableOpacity
-              style={{
-                backgroundColor: Constants.buttonBackground,
-                paddingVertical: 12,
-                paddingHorizontal: 18,
-                borderRadius: 25,
-                justifyContent: "center",
-                alignItems: "center",
-                marginLeft: 10,
-                shadowColor: "#888",
-                shadowOffset: { width: 0, height: 3 },
-                shadowOpacity: 0.3,
-                shadowRadius: 5,
-                marginBottom: 20,
-              }}
-              onPress={handleSend}
-            >
+            <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
               <Text style={styles.sendText}>➤</Text>
             </TouchableOpacity>
           </View>
@@ -267,23 +232,47 @@ const styles = StyleSheet.create({
     backgroundColor: "#EEE",
     fontFamily: Constants.fontFamily,
   },
+  messageList: {
+    flex: 1,
+    paddingHorizontal: 10,
+  },
+  loading: {
+    margin: 10,
+  },
   messageText: { fontSize: 16 },
   inputContainer: {
     flexDirection: "row",
-    alignItems: "center", // key to keeping button small!
+    alignItems: "center",
     padding: 10,
     borderTopWidth: 1,
     borderColor: "#ccc",
   },
   input: {
     flex: 1,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: "#ccc",
     borderRadius: 20,
-    padding: 20,
+    padding: 15,
+    paddingVertical: 10,
+    fontSize: 16,
+    backgroundColor: "#F0F8FF",
+    shadowColor: "#888",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    maxHeight: 75,
     fontFamily: Constants.fontFamily,
-    paddingHorizontal: 15,
   },
-  sendButton: { justifyContent: "center", alignItems: "center", marginLeft: 8 },
+  sendButton: {
+    backgroundColor: Constants.buttonBackground,
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+    borderRadius: 25,
+    marginLeft: 10,
+    shadowColor: "#888",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
   sendText: { fontSize: 18, color: "#fff" },
 });

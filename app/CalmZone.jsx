@@ -1,22 +1,10 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-
-import { StatusBar } from "expo-status-bar";
-
-import { useNavigation } from "@react-navigation/native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 import Constants from "../constants/constants";
 
 import Header from "../components/Header";
 
 export default function CalmZone() {
-  const navigation = useNavigation();
-
   const activities = [
     {
       title: "🎮 Games",
@@ -41,10 +29,7 @@ export default function CalmZone() {
   ];
 
   return (
-    <View
-      style={styles.container}
-      contentContainerStyle={{ paddingBottom: 60 }}
-    >
+    <View style={styles.container}>
       <Header title="Calm Zone" />
       <ScrollView style={styles.content}>
         <Text style={styles.title}>🌈 Calm Zone</Text>
@@ -69,12 +54,12 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 20,
-    marginTop: 30,
+    paddingTop: 30,
   },
   title: {
     fontSize: 26,
     fontWeight: "700",
-    color: "#D6336C",
+    color: "#B31E8C",
     marginBottom: 8,
     textAlign: "center",
     fontFamily: Constants.fontFamily,

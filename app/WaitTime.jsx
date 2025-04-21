@@ -4,8 +4,6 @@ import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 
-import { StatusBar } from "expo-status-bar";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Header from "../components/Header";
@@ -34,7 +32,7 @@ export default function WaitTime() {
   };
 
   function generateRandomWaitTime() {
-    const totalMinutes = Math.floor(Math.random() * 120) + 1; // 1 to 120 minutes
+    const totalMinutes = Math.floor(Math.random() * 120) + 1;
 
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
@@ -103,7 +101,7 @@ export default function WaitTime() {
         ) : (
           <ActivityIndicator
             size="large"
-            color="#FFA500"
+            color="#B31E8C"
             style={{ marginTop: 30, marginBottom: 30 }}
           />
         )}

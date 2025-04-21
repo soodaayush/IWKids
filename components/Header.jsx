@@ -22,7 +22,7 @@ const Header = (props) => {
         paddingBottom: 20,
         display: "flex",
         flexDirection: "row",
-        gap: 20,
+        gap: 10,
       }}
     >
       <StatusBar style="light" />
@@ -38,7 +38,6 @@ const Header = (props) => {
         <Text
           style={{
             fontSize: 24,
-            marginTop: 10,
             color: "#fff",
             fontWeight: "bold",
             fontFamily: Constants.fontFamily,

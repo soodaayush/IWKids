@@ -11,8 +11,6 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-import { StatusBar } from "expo-status-bar";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Constants from "../constants/constants";
@@ -30,8 +28,6 @@ import {
 const QUEUE_KEY = "checkinQueue";
 
 export default function CheckInScreen() {
-  // AsyncStorage.clear();
-
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [patientNumber, setPatientNumber] = useState(null);
@@ -94,7 +90,7 @@ export default function CheckInScreen() {
     setQueue(updatedQueue);
     setPatientNumber(newNumber);
     setPosition(updatedQueue.length);
-    setIsAlreadyCheckedIn(true); // Reset check-in status if it's a new check-in
+    setIsAlreadyCheckedIn(true);
 
     sendSMSViaTwilio(
       phoneNumber,
@@ -104,7 +100,7 @@ export default function CheckInScreen() {
     setName("");
     setPhoneNumber("");
 
-    await saveQueue(updatedQueue); // persist
+    await saveQueue(updatedQueue);
   };
 
   const sendSMSViaTwilio = async (to, body) => {
@@ -178,7 +174,7 @@ export default function CheckInScreen() {
                 placeholder="Enter your phone number"
                 value={phoneNumber}
                 keyboardType="phone-pad"
-                maxLength={14} // optional, prevents overly long input
+                maxLength={14}
                 onChangeText={(text) => setPhoneNumber(formatPhoneNumber(text))}
               />
               <Button text="Check In" function={handleCheckIn} />

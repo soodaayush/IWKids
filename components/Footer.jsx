@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
-import { useRouter, usePathname } from "expo-router";
+import { usePathname } from "expo-router";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -13,7 +13,6 @@ import Constants from "../constants/constants";
 
 const Footer = () => {
   const navigation = useNavigation();
-  const router = useRouter();
   const path = usePathname();
 
   async function openURL(url) {

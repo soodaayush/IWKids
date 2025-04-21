@@ -8,8 +8,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { StatusBar } from "expo-status-bar";
-
 import Constants from "../constants/constants";
 
 import Header from "../components/Header";

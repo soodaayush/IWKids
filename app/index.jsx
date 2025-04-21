@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 import { StatusBar } from "expo-status-bar";
 
@@ -11,12 +11,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useNavigation } from "@react-navigation/native";
 
+import * as ImagePicker from "expo-image-picker";
+
 const QUEUE_KEY = "checkinQueue";
 
 export default function Home() {
+  AsyncStorage.clear();
+
   const navigation = useNavigation();
 
   const [isCheckedIn, setIsCheckedIn] = useState(false);
+  const [avatarUri, setAvatarUri] = useState(null);
 
   const fetchFromStorage = async (key) => {
     try {
@@ -40,18 +45,67 @@ export default function Home() {
         setIsCheckedIn(false);
       }
     });
+
+    const loadAvatar = async () => {
+      const saved = await AsyncStorage.getItem("userAvatar");
+      if (saved) setAvatarUri(saved);
+    };
+
+    loadAvatar();
+    fetchFromStorage(QUEUE_KEY).then((entry) => {
+      setIsCheckedIn(entry != null);
+    });
   }, []);
 
   function navigateToPage(page) {
     navigation.navigate(page);
   }
 
+  const pickAvatar = async () => {
+    const permission = await ImagePicker.requestCameraPermissionsAsync();
+
+    if (!permission.granted) {
+      alert("Camera access is required.");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 0.7,
+    });
+
+    if (!result.canceled) {
+      const uri = result.assets[0].uri;
+      setAvatarUri(uri);
+      await AsyncStorage.setItem("userAvatar", uri);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar style="dark" />
       <Image source={require("../assets/IWK.png")} style={styles.mascot} />
       <View style={styles.content}>
-        <Text style={styles.welcomeText}>Hi! I'm Buddy 🐻</Text>
+        {avatarUri ? (
+          <View style={styles.intro}>
+            <Text style={styles.welcomeText}>Hi, I'm Buddy</Text>
+            <TouchableOpacity onPress={pickAvatar} style={{ paddingLeft: 5 }}>
+              <Image source={{ uri: avatarUri }} style={styles.avatarImage} />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.intro}>
+            <Text style={styles.welcomeText}>Hi! I'm Buddy</Text>
+            <TouchableOpacity onPress={pickAvatar} style={{ paddingLeft: 5 }}>
+              <Text>🐻</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        <TouchableOpacity
+          onPress={pickAvatar}
+          style={styles.avatarContainer}
+        ></TouchableOpacity>
+
         <Text style={styles.subtitle}>How may I help you today?</Text>
         <View style={styles.buttonGrid}>
           <Button
@@ -78,6 +132,12 @@ export default function Home() {
               navigateToPage("CalmZone");
             }}
           />
+          <Button
+            text="🔗 Quick Links"
+            function={() => {
+              navigateToPage("QuickLinks");
+            }}
+          />
           {isCheckedIn && (
             <Button
               text="📝 Provide feedback"
@@ -99,6 +159,7 @@ const styles = StyleSheet.create({
     fontFamily: Constants.fontFamily,
   },
   content: {
+    marginTop: 30,
     width: "100%",
     textAlign: "center",
     paddingHorizontal: 20,
@@ -111,14 +172,13 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 26,
     textAlign: "center",
+    alignItems: "center",
     fontWeight: "bold",
-    color: "#4A4A8C",
+    color: "#104C98",
     fontFamily: Constants.fontFamily,
-    marginBottom: 6,
   },
   subtitle: {
     fontSize: 18,
-    color: "#888",
     marginBottom: 20,
     textAlign: "center",
     fontFamily: Constants.fontFamily,
@@ -126,5 +186,16 @@ const styles = StyleSheet.create({
   buttonGrid: {
     width: "100%",
     gap: 12,
+  },
+  avatarImage: {
+    width: 30,
+    height: 30,
+    borderRadius: 60,
+  },
+  intro: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 6,
   },
 });
