@@ -16,8 +16,6 @@ import * as ImagePicker from "expo-image-picker";
 const QUEUE_KEY = "checkinQueue";
 
 export default function Home() {
-  AsyncStorage.clear();
-
   const navigation = useNavigation();
 
   const [isCheckedIn, setIsCheckedIn] = useState(false);
