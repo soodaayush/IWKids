@@ -95,7 +95,17 @@ export default function Home() {
           <View style={styles.intro}>
             <Text style={styles.welcomeText}>Hi! I'm Buddy</Text>
             <TouchableOpacity onPress={pickAvatar} style={{ paddingLeft: 5 }}>
-              <Text>🐻</Text>
+              <Text
+                style={{
+                  fontSize: 50,
+                  borderWidth: 2,
+                  borderRadius: 50,
+                  borderColor: "",
+                  padding: 10,
+                }}
+              >
+                🐻
+              </Text>
             </TouchableOpacity>
           </View>
         )}
@@ -186,8 +196,10 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   avatarImage: {
-    width: 30,
-    height: 30,
+    width: 70,
+    height: 70,
+    borderWidth: 2,
+    borderColor: "#ccc",
     borderRadius: 60,
   },
   intro: {

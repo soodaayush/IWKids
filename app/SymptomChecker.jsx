@@ -94,7 +94,7 @@ export default function SymptomChecker() {
               {
                 role: "system",
                 content:
-                  "You are a friendly medical assistant helping kids and families describe how they feel while waiting in the ER. Diagnose medical conditions and recommend they either go to ER or check with their family doctor. Keep language simple, comforting, and supportive, and keep the responses brief. You are in the IWK, which is a children's hospital in Halifax Nova Scotia. You should be able to accommodate people speaking English and French.",
+                  "ChatGPT should act like a medical assistant in a children's hospital. It should talk in a friendly, comforting tone and keep responses brief. It should diagnose medical conditions and determine and recommend if people need to go to the ER or explore other options.",
               },
               ...updatedMessages.map((m) => ({
                 role: m.sender === "user" ? "user" : "assistant",

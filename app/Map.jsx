@@ -38,12 +38,12 @@ export default function Map() {
         <View style={styles.information}>
           <Image style={styles.image} source={require("../assets/IWK.png")} />
           <View style={styles.textContainer}>
-            <Text style={styles.school}>IWK Hospital</Text>
+            <Text style={styles.location}>IWK Hospital</Text>
             <Text style={styles.address}>
               5980 University Ave #5850, Halifax, NS B3K 6R8
             </Text>
             <TouchableOpacity onPress={openMap}>
-              <Directions style={styles.svg} fill={Constants.textDark} />
+              <Text style={styles.directions}>Directions</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -79,36 +79,39 @@ const styles = StyleSheet.create({
     backgroundColor: Constants.backgroundDark,
   },
   information: {
-    flexDirection: "row",
     backgroundColor: Constants.backgroundDark,
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
     padding: 10,
   },
   image: {
     height: 94,
     width: 130,
-    marginRight: 10,
   },
   svg: {
-    height: 30,
-    width: 30,
     marginTop: 10,
   },
   textContainer: {
-    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
   },
-  school: {
-    color: Constants.textDark,
+  location: {
     fontFamily: Constants.fontFamily,
     width: "100%",
     fontSize: 20,
-    marginBottom: 10,
   },
   address: {
-    color: Constants.textDark,
+    color: Constants.textColor,
     fontFamily: Constants.fontFamily,
-    width: "100%",
+  },
+  directions: {
+    marginTop: 10,
+    color: Constants.textColor,
+    fontFamily: Constants.fontFamily,
+    textDecorationLine: "underline",
+    textDecorationStyle: "solid",
   },
   map: {
     width: "100%",

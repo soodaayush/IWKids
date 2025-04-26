@@ -6,6 +6,7 @@ const Constants = {
   buttonBackground: "#B31E8C",
   modalBackground: "#3AAE2A",
   modalTextColor: "#fff",
+  textColor: "black",
 };
 
 export default Constants;
