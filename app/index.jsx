@@ -98,9 +98,9 @@ export default function Home() {
               <Text
                 style={{
                   fontSize: 50,
-                  borderWidth: 2,
+                  borderWidth: 5,
                   borderRadius: 50,
-                  borderColor: "",
+                  borderColor: "#ccc",
                   padding: 10,
                 }}
               >
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
   avatarImage: {
     width: 70,
     height: 70,
-    borderWidth: 2,
+    borderWidth: 5,
     borderColor: "#ccc",
     borderRadius: 60,
   },
