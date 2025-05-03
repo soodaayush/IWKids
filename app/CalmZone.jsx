@@ -4,7 +4,11 @@ import Constants from "../constants/constants";
 
 import Header from "../components/Header";
 
+import { useNavigation } from "@react-navigation/native";
+
 export default function CalmZone() {
+  const navigation = useNavigation();
+
   const activities = [
     {
       title: "🎮 Games",
@@ -28,6 +32,10 @@ export default function CalmZone() {
     },
   ];
 
+  function tictactoe() {
+    navigation.navigate("TicTacToe");
+  }
+
   return (
     <View style={styles.container}>
       <Header title="Calm Zone" />
@@ -39,7 +47,9 @@ export default function CalmZone() {
 
         {activities.map((item, index) => (
           <View key={index} style={styles.card}>
-            <Text style={styles.cardTitle}>{item.title}</Text>
+            <Text onPress={tictactoe} style={styles.cardTitle}>
+              {item.title}
+            </Text>
             <Text style={styles.cardDescription}>{item.description}</Text>
           </View>
         ))}

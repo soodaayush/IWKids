@@ -25,6 +25,7 @@ const RootLayout = () => {
         <Stack.Screen name="Feedback" options={{ headerShown: false }} />
         <Stack.Screen name="QuickLinks" options={{ headerShown: false }} />
         <Stack.Screen name="Map" options={{ headerShown: false }} />
+        <Stack.Screen name="TicTacToe" options={{ headerShown: false }} />
       </Stack>
       <Footer />
     </>
