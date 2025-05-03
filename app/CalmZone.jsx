@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 
 import Constants from "../constants/constants";
 
@@ -9,30 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 export default function CalmZone() {
   const navigation = useNavigation();
 
-  const activities = [
-    {
-      title: "🎮 Games",
-      description: "Play exciting games and have fun!",
-    },
-    {
-      title: "🎨 Coloring Pages",
-      description: "Tap to color online or ask for printed pages.",
-    },
-    {
-      title: "📺 Watch Cartoons",
-      description: "Buddy’s favorite shows are ready to go!",
-    },
-    {
-      title: "🌬️ Breathing Exercises",
-      description: "Breathe in... breathe out... let’s calm together.",
-    },
-    {
-      title: "🎵 Soft Music",
-      description: "Relaxing music to ease your nerves.",
-    },
-  ];
-
-  function tictactoe() {
+  function openTicTacToe() {
     navigation.navigate("TicTacToe");
   }
 
@@ -44,15 +27,36 @@ export default function CalmZone() {
         <Text style={styles.subtitle}>
           Buddy is here to help you feel calm and cozy.
         </Text>
-
-        {activities.map((item, index) => (
-          <View key={index} style={styles.card}>
-            <Text onPress={tictactoe} style={styles.cardTitle}>
-              {item.title}
-            </Text>
-            <Text style={styles.cardDescription}>{item.description}</Text>
-          </View>
-        ))}
+        <TouchableOpacity style={styles.card} onPress={openTicTacToe}>
+          <Text style={styles.cardTitle}>🎮 Games</Text>
+          <Text style={styles.cardDescription}>
+            Play exciting games and have fun!
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card}>
+          <Text style={styles.cardTitle}>🎨 Coloring Pages</Text>
+          <Text style={styles.cardDescription}>
+            Tap to color online or ask for printed pages.
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card}>
+          <Text style={styles.cardTitle}>📺 Watch Cartoons</Text>
+          <Text style={styles.cardDescription}>
+            Buddy&apos;s favorite shows are ready to go!
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card}>
+          <Text style={styles.cardTitle}>🌬️ Breathing Exercises</Text>
+          <Text style={styles.cardDescription}>
+            Breathe in... breathe out... let&apos;s calm together.
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card}>
+          <Text style={styles.cardTitle}>🎵 Soft Music</Text>
+          <Text style={styles.cardDescription}>
+            Relaxing music to ease your nerves.
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );

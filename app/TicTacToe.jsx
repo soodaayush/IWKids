@@ -8,7 +8,7 @@ const TicTacToe = () => {
   const [isXNext, setIsXNext] = useState(true);
 
   const handlePress = (index) => {
-    if (board[index] || checkWinner(board)) return; // Ignore click if spot is taken or game is won
+    if (board[index] || checkWinner(board)) return;
 
     const newBoard = [...board];
     newBoard[index] = isXNext ? "X" : "O";

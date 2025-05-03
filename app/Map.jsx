@@ -14,8 +14,6 @@ import Header from "../components/Header";
 
 import Constants from "../constants/constants";
 
-import Directions from "../assets/directions.svg";
-
 export default function Map() {
   const latitude = 44.637675239464514;
   const longitude = -63.58368630265496;
