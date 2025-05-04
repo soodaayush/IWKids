@@ -66,69 +66,6 @@ export default function SymptomChecker() {
     }
   }, [messages]);
 
-  // const handleSend = async () => {
-  //   if (!input.trim()) return;
-
-  //   const userMessage = {
-  //     id: Date.now().toString(),
-  //     text: input,
-  //     sender: "user",
-  //   };
-  //   const updatedMessages = [...messages, userMessage];
-  //   setMessages(updatedMessages);
-  //   setInput("");
-  //   setLoading(true);
-
-  //   try {
-  //     const response = await fetch(
-  //       "https://api.openai.com/v1/chat/completions",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${API_KEY}`,
-  //         },
-  //         body: JSON.stringify({
-  //           model: "gpt-3.5-turbo",
-  //           messages: [
-  //             {
-  //               role: "system",
-  //               content:
-  //                 "ChatGPT should act like a medical assistant in a children's hospital. It should talk in a friendly, comforting tone and keep responses brief. It should diagnose medical conditions and determine and recommend if people need to go to the ER or explore other options. Use emojis.",
-  //             },
-  //             ...updatedMessages.map((m) => ({
-  //               role: m.sender === "user" ? "user" : "assistant",
-  //               content: m.text,
-  //             })),
-  //           ],
-  //           temperature: 0.7,
-  //           max_tokens: 150,
-  //         }),
-  //       }
-  //     );
-
-  //     const data = await response.json();
-  //     const reply = data.choices?.[0]?.message?.content.trim();
-  //     const aiMessage = {
-  //       id: (Date.now() + 1).toString(),
-  //       text: reply || "Hmm, I'm not sure what to say.",
-  //       sender: "ai",
-  //     };
-
-  //     setMessages([...updatedMessages, aiMessage]);
-  //   } catch (error) {
-  //     console.error("OpenAI Error:", error);
-  //     const failMessage = {
-  //       id: (Date.now() + 1).toString(),
-  //       text: "Oops! I had trouble thinking of a response.",
-  //       sender: "ai",
-  //     };
-  //     setMessages([...updatedMessages, failMessage]);
-  //   }
-
-  //   setLoading(false);
-  // };
-
   const handleSend = async () => {
     if (!input.trim()) return;
 
