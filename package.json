@@ -9,26 +9,26 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-async-storage/async-storage": "2.1.2",
     "@react-navigation/native": "^7.0.14",
-    "expo": "~52.0.46",
+    "expo": "^53.0.0",
     "expo-font": "^13.0.4",
-    "expo-image-picker": "^16.0.6",
-    "expo-router": "~4.0.21",
-    "expo-splash-screen": "^0.29.24",
-    "expo-status-bar": "~2.0.1",
-    "expo-web-browser": "^14.0.2",
-    "react": "18.3.1",
-    "react-native": "0.76.9",
+    "expo-image-picker": "~16.1.4",
+    "expo-router": "~5.1.4",
+    "expo-splash-screen": "~0.30.10",
+    "expo-status-bar": "~2.2.3",
+    "expo-web-browser": "~14.2.0",
+    "react": "19.0.0",
+    "react-native": "0.79.5",
     "react-native-dotenv": "^3.4.11",
-    "react-native-maps": "1.18.0",
-    "react-native-svg": "15.8.0",
+    "react-native-maps": "1.20.1",
+    "react-native-svg": "15.11.2",
     "twilio": "^5.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "metro-react-native-babel-preset": "^0.77.0",
-    "react-native-svg-transformer": "^1.5.0"
+    "react-native-svg-transformer": "^1.5.1"
   },
   "plugins": [
     "expo-router"
