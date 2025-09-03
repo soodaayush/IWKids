@@ -14,7 +14,7 @@ IWKids is an app designed to enhance the Emergency Room (ER) experience for chil
 
 ## IWKids: An AI Friend in the ER
 
-![IWKids: An AI Friend in the ER](https://github.com/user-attachments/assets/3453d427-b3b3-49bf-8e83-05ef444b545b)
+<img width="450" height="977" alt="IWKids Mobile App Home Screen" src="https://github.com/user-attachments/assets/3453d427-b3b3-49bf-8e83-05ef444b545b" />
 
 - AI-powered medical platform allows families to perform pre-diagnosis using text, uploaded video and/or images
 - The platform explains the medical condition in simple terms and makes recommendations on possible remediations, including a possible ER visit
@@ -34,7 +34,7 @@ IWKids is an app designed to enhance the Emergency Room (ER) experience for chil
 
 ## ER Journey of a Patient
 
-![IWKids Workflow](https://github.com/user-attachments/assets/86cc89fd-e5e3-4677-9c9c-c441912bc5a9)
+<img width="750" height="566" alt="IWKids Workflow" src="https://github.com/user-attachments/assets/86cc89fd-e5e3-4677-9c9c-c441912bc5a9" />
 
 ## How IWKids Helps Everyone
 
