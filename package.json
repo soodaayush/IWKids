@@ -9,20 +9,24 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "2.1.2",
+    "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/native": "^7.0.14",
-    "expo": "^53.0.0",
-    "expo-font": "^13.0.4",
-    "expo-image-picker": "~16.1.4",
-    "expo-router": "~5.1.4",
-    "expo-splash-screen": "~0.30.10",
-    "expo-status-bar": "~2.2.3",
-    "expo-web-browser": "~14.2.0",
-    "react": "19.0.0",
-    "react-native": "0.79.5",
+    "expo": "^54.0.0",
+    "expo-constants": "~18.0.10",
+    "expo-font": "~14.0.9",
+    "expo-image-picker": "~17.0.8",
+    "expo-linking": "~8.0.8",
+    "expo-router": "~6.0.13",
+    "expo-splash-screen": "~31.0.10",
+    "expo-status-bar": "~3.0.8",
+    "expo-web-browser": "~15.0.8",
+    "react": "19.1.0",
+    "react-native": "0.81.5",
     "react-native-dotenv": "^3.4.11",
     "react-native-maps": "1.20.1",
-    "react-native-svg": "15.11.2",
+    "react-native-safe-area-context": "~5.6.0",
+    "react-native-screens": "~4.16.0",
+    "react-native-svg": "15.12.1",
     "twilio": "^5.5.2"
   },
   "devDependencies": {
@@ -40,5 +44,6 @@
       }
     }
   },
-  "private": true
+  "private": true,
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }
